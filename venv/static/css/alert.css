@@ -1,0 +1,46 @@
+.alert {
+  display: none;
+  /* Initially hide all alerts */
+  padding: 5px 10px;
+  /* Adjust padding to reduce the length of the alert box */
+  margin: 0 auto;
+  /* Center the alert horizontally */
+  width: fit-content;
+  /* Set width to fit the content */
+  text-align: center;
+  /* Center the text horizontally */
+  border-radius: 4px;
+}
+
+.alert-login_success,
+.alert-logout_success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+
+.alert-login_success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-logout_success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Historical Data</title>
+  <style>
+    /* Add custom CSS styles as needed */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Monthly Historical Data</h1>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Date and Time</th>
+            <th>water_temperature (°C)</th>
+            <th>Humidity (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in historical_data %}
+          <tr>
+            <td>{{ data.datetime }}</td>
+            <td>{{ data.water_temperature }}</td>
+            <td>{{ data.humidity }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

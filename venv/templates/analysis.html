@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PAGE TITLE HERE -->
+  <title>Admin</title>
+  <link rel="icon" href="../static/images/logo.png">
+
+  <link href="../static/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../static/vendor/nouislider/nouislider.min.css">
+  <!-- Style css -->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <link href="../static/css/alert.css" rel="stylesheet">
+  <link href="../static/css/logout.css" rel="stylesheet">
+  <!-- icon link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- calender -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+
+<body>
+
+
+  <!--*******************
+        Preloader start
+    ********************-->
+  <div id="preloader">
+    <div class="waviy">
+      <span style="--i:1">L</span>
+      <span style="--i:2">o</span>
+      <span style="--i:3">a</span>
+      <span style="--i:4">d</span>
+      <span style="--i:5">i</span>
+      <span style="--i:6">n</span>
+      <span style="--i:7">g</span>
+      <span style="--i:8">.</span>
+      <span style="--i:9">.</span>
+      <span style="--i:10">.</span>
+    </div>
+  </div>
+  <!--*******************
+        Preloader end
+    ********************-->
+
+
+
+
+  <!--**********************************
+        Main wrapper start
+    ***********************************-->
+  <div id="main-wrapper">
+
+    <!--**********************************
+            Nav header start
+        ***********************************-->
+    <div class="nav-header">
+      <a href="/" class="brand-logo">
+        <img class="logo-abbr" width="90" height="40" viewBox="0 0 53 53" src="../static/images/logo.png" alt="">
+
+
+        <p class="brand-title" width="124px" height="33px" style="font-size: 16px;">Winter- Guard</p>
+      </a>
+      <div class="nav-control">
+        <div class="hamburger">
+          <span class="line" style=color:#90A9AB></span><span class="line"></span><span class="line"></span>
+        </div>
+      </div>
+    </div>
+    <!--**********************************
+            Nav header end
+        ***********************************-->
+
+
+    <!--**********************************
+            Header start
+        ***********************************-->
+
+
+
+
+    <div class="header">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="header-content">
+        <nav class="navbar navbar-expand">
+          <div class="collapse navbar-collapse justify-content-between">
+            <div class="header-left">
+              <div class="dashboard_bar">
+                Dashboard
+              </div>
+            </div>
+
+
+
+            <!-- notification -->
+            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {% if realtime_data.water_temperature|float > 15 %}
+                <i style="font-size:1.25rem" class="fa fa-bell cursor-pointer text-danger fa-lg"></i>
+                <!-- Add fa-lg for larger icon -->
+                {% else %}
+                <i style="font-size:1.25rem" class="fa fa-bell cursor-pointer fa-lg"></i>
+                <!-- Add fa-lg for larger icon -->
+                {% endif %}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton"
+                style="left: auto; right: 0;">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      {% if realtime_data.water_temperature|float < 20 %} <span class="text-danger">water_temperature is
+                        below 20°C! </span>
+                        {% else %}
+                        No notifications
+                        {% endif %}
+                        <span class="timestamp"></span>
+                    </div>
+                  </a>
+
+
+                </li>
+                <!-- Add more dropdown items as needed -->
+              </ul>
+            </li>
+
+
+          </div>
+        </nav>
+      </div>
+    </div>
+    <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+    <!--**********************************
+            Sidebar start
+        ***********************************-->
+    <div class="dlabnav">
+      <div class="dlabnav-scroll">
+        <ul class="metismenu" id="menu">
+          <li class="dropdown header-profile">
+            <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+              <img src="../static/images/ion/man (1).png" alt="">
+
+              </span>
+              <div class="header-info ms-3">
+                <span class="font-w600 ">Hi,<b>Dawa</b></span>
+                <small class="text-end font-w400">gcit@gmail.com</small>
+              </div>
+            </a>
+
+          </li>
+          <li><a href="javascript:void()" aria-expanded="false">
+              <i class="flaticon-025-dashboard"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a aria-expanded="false" href="{{ url_for('home') }}">
+              <i class="flaticon-046-home"></i>
+              <span class="nav-text">Home</span>
+            </a>
+          </li>
+
+          <li>
+            <a aria-expanded="false" href="#" onclick="openDialog()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="nav-text">logout</span>
+              <form id="logout-form" action="/logout" method="post" style="display: none;">
+              </form>
+            </a>
+          </li>
+
+          <!-- Hidden dialog container -->
+          <div id="custom-dialog" class="dialog-container">
+            <div class="dialog">
+              <p>Are you sure you want to log out?</p>
+              <div class="dialog-buttons">
+                <button onclick="confirmLogout()">Yes</button>
+                <button onclick="closeDialog()">No</button>
+              </div>
+            </div>
+          </div>
+
+
+
+        </ul>
+      </div>
+    </div>
+    <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+    <!--**********************************
+            Content body start
+        ***********************************-->
+    <div class="content-body">
+      <!-- row -->
+      <div class="container-fluid">
+        <div class="row invoice-card-row">
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-warning invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <svg width="32px" height="48px" viewBox="0 0 32 48">
+                    <path fill-rule="evenodd" d=" M16,48c-2.209,0-4-1.791-4-4V4c0-2.209,1.791-4,4-4s4,1.791,4,4v40C20,46.209,18.209,48,16,48z
+											M16,1c-1.104,0-2,0.896-2,2v38c0,1.104,0.896,2,2,2s2-0.896,2-2V3C18,1.896,17.104,1,16,1z
+											M8,42c-1.104,0-2-0.896-2-2s0.896-2,2-2s2,0.896,2,2S9.104,42,8,42z
+											M24,42c-1.104,0-2-0.896-2-2s0.896-2,2-2s2,0.896,2,2S25.104,42,24,42z
+											M16,10c-1.104,0-2-0.896-2-2V3c0-1.104,0.896-2,2-2s2,0.896,2,2v5C18,9.104,17.104,10,16,10z" fill="#000" />
+
+                  </svg>
+
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'water_temperature' %}
+                  <h2 class="text-white invoice-num">{{ value }}°C</h2>
+                  {% endif %}
+                  {% endfor %}
+                  <span class="text-white fs-18">water_temperature</span>
+                </div>
+              </div>
+              <div class="card-footer p-3">
+                {% for key, value in realtime_data.items() %}
+                {% if key == 'water_temperature' %}
+                {% set water_temperature_fahrenheit = (value * 9 / 5) + 32 %}
+                <p class="mb-0">{{ water_temperature_fahrenheit|round(2) }}°F</p>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-info invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <span class="material-symbols-outlined">
+                    water
+                  </span>
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'water_current_1' %}
+                  <h2 class="text-white invoice-num">{{ value }} m/s</h2>
+                  {% endif %}
+                  {% endfor %}
+                  <span class="text-white fs-18">Water current 1</span>
+                </div>
+              </div>
+              <div class="card-footer p-3">
+                <p class="mb-0">current from source to tank1</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-info invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <span class="material-symbols-outlined">
+                    water
+                  </span>
+
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'water_current_2' %}
+                  <h2 class="text-white invoice-num">{{ value }} m/s</h2>
+                  {% endif %}
+                  {% endfor %}
+                  <span class="text-white fs-18">water current 2</span>
+                </div>
+              </div>
+              <div class="card-footer p-3">
+                <p class="mb-0">current from tank_1 to tank_2</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-info invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <span class="material-symbols-outlined">
+                    humidity_percentage
+                  </span>
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'humidity' %}
+                  <h2 class="text-white invoice-num">{{ value }}%</h2>
+                  {% endif %}
+                  {% endfor %}
+
+                  <span class="text-white fs-18">Humidity</span>
+                </div>
+              </div>
+              <div class="card-footer p-3">
+                <p class="mb-0"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-info invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <svg width="24" height="28" viewBox="0 0 50 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background of the tank -->
+                    <rect x="0" y="0" width="50" height="100" fill="#ffffff66" />
+                    <!-- Water level -->
+                    {% for key, value in realtime_data.items() %}
+                    {% if key == 'water_level_1' %}
+                    <rect x="0" y="{{ 100 - value }}" width="50" height="{{ value }}" fill="#000" />
+                    {% endif %}
+                    {% endfor %}
+                    <!-- Outline of the tank -->
+                    <rect x="0" y="0" width="50" height="100" fill="none" stroke="#000" stroke-width="6" />
+                  </svg>
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'water_level_1' %}
+                  <h2 class="text-white invoice-num">{{ value }} %</h2>
+                  {% endif %}
+                  {% endfor %}
+                  <span class="text-white fs-18">tank1</span>
+                </div>
+              </div>
+
+              <div class="card-footer p-3">
+                <p class="mb-0"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-xxl-4 col-sm-4">
+            <div class="card bg-info invoice-card">
+              <div class="card-body d-flex">
+                <div class="icon me-3">
+                  <svg width="24" height="28" viewBox="0 0 50 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background of the tank -->
+                    <rect x="0" y="0" width="50" height="100" fill="#ffffff66" />
+                    <!-- Water level -->
+                    {% for key, value in realtime_data.items() %}
+                    {% if key == 'water_level_2' %}
+                    <rect x="0" y="{{ 100 - value }}" width="50" height="{{ value }}" fill="#000" />
+                    {% endif %}
+                    {% endfor %}
+                    <!-- Outline of the tank -->
+                    <rect x="0" y="0" width="50" height="100" fill="none" stroke="#000" stroke-width="6" />
+                  </svg>
+                </div>
+                <div>
+                  {% for key, value in realtime_data.items() %}
+                  {% if key == 'water_level_2' %}
+                  <h2 class="text-white invoice-num">{{ value }} %</h2>
+                  {% endif %}
+                  {% endfor %}
+                  <span class="text-white fs-18">tank2</span>
+                </div>
+              </div>
+
+              <div class="card-footer p-3">
+                <p class="mb-0"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-9 col-xxl-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-xl-6">
+                      <div class="card-bx bg-blue">
+                        <!-- <img class="pattern-img" src="../static/images/pattern/pattern6.png" alt=""> -->
+                        <div class="card-info text-white">
+                          <img src="../static/images/pattern/circle.png" class="mb-4" alt="">
+                          <h3 class="text-white card-balance"> Motor Status Predicted to</h3>
+                          <p class="fs-16" id="prediction">Loading...</p>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-xl-6">
+
+                      <div class="col-md-6">
+
+                        <p>"An AI model that predicts if water is turning into ice and whether the motor should be
+                          ON or OFF!"</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 col-xxl-12">
+              <div class="card">
+                <div class="card-body d-sm d-block align-items-center">
+                  <div>
+                    <h4>water_temperature Analysis for the Current Month</h4>
+                    <canvas id="water_temperatureChart"></canvas>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="col-xl-6 col-xxl-12">
+              <div class="card">
+                <div class="card-header d-block d-sm-flex border-0">
+                  <div class="card-tabs mt-3 mt-sm-0">
+                    <div class="input-group date-container">
+                      <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar"
+                          style="color: black;"></i></span>
+                      <input type="text" class="form-control" id="date-range" placeholder="Select date range"
+                        aria-label="Date Range" aria-describedby="basic-addon1">
+                    </div>
+                    <button class="btn btn-primary" type="button" onclick="fetchData()">Fetch Data</button>
+                    <form action="/download_csv" method="POST">
+                      <button class="btn btn-primary d-sm-inline-block " type="submit">Download Data</button>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="card-body tab-content p-0">
+                  <div class="tab-pane active show fade" id="date-picker" role="tabpanel">
+                    <div class="table-responsive">
+                      <table class="table table-responsive-md card-table transactions-table">
+                        <thead>
+                          <tr>
+                            <th>Date and Time</th>
+                            <th>Water Temperature (°C)</th>
+                            <th>Humidity (%)</th>
+                            <th>Water Current 1 (m/s)</th>
+                            <th>Water Current 2 (m/s)</th>
+                            <th>Water Level 1 (m)</th>
+                            <th>Water Level 2 (m)</th>
+                            <th>Motors Status</th>
+                          </tr>
+                        </thead>
+                        <tbody id="data-table-body">
+                          <!-- Data will be populated here -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Include Flatpickr JS -->
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+            <!-- Include Flatpickr Range Plugin -->
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
+            <!-- Include Bootstrap JS (for icons and styling) -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+            <script>
+              // Initialize Flatpickr
+              flatpickr("#date-range", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                onClose: function (selectedDates, dateStr, instance) {
+                  if (selectedDates.length === 2) {
+                    // Perform action when both start and end dates are selected
+                    console.log(`Selected range: ${dateStr}`);
+                  }
+                }
+              });
+
+              function fetchData() {
+                var dateRange = document.getElementById('date-range').value;
+                if (dateRange) {
+                  fetch('/fetch_data', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ dateRange: dateRange })
+                  })
+                    .then(response => response.json())
+                    .then(data => {
+                      var tableBody = document.getElementById('data-table-body');
+                      tableBody.innerHTML = '';
+                      data.forEach(row => {
+                        var tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${row.datetime}</td><td>${row.water_temperature}</td><td>${row.humidity}</td><td>${row.water_current_1}</td><td>${row.water_current_2}</td><td>${row.water_level_1}</td><td>${row.water_level_2}</td><td>${row.motors_status}</td>`;
+                        tableBody.appendChild(tr);
+                      });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+                }
+              }
+            </script>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+
+      <div class="copyright">
+        <p>© GCIT PRJ <a href="#" target="_blank">IOT-Ai Smart-Flow</a> 2024</p>
+      </div>
+    </div>
+    <!--**********************************
+            Footer end
+        ***********************************-->
+
+
+
+
+  </div>
+
+  <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+  <!--**********************************
+        Scripts
+    ***********************************-->
+  <!-- Required vendors -->
+  <script src="../static/vendor/global/global.min.js"></script>
+  <script src="../static/vendor/chart.js/Chart.bundle.min.js"></script>
+  <script src="../static/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+
+  <!-- Apex Chart -->
+  <script src="../static/vendor/apexchart/apexchart.js"></script>
+  <script src="../static/vendor/nouislider/nouislider.min.js"></script>
+  <script src="../static/vendor/wnumb/wNumb.js"></script>
+
+
+  <!-- Dashboard 1 -->
+  <!-- <script src="../static/js/dashboard/dashboard-1.js"></script> -->
+
+  <script src="../static/js/custom.min.js"></script>
+  <script src="../static/js/dlabnav-init.js"></script>
+  <script src="../static/js/demo.js"></script>
+  <script src="../static/js/styleSwitcher.js"></script>
+  <script src="{{ url_for('static', filename='js/alert.js') }}"></script>
+
+  <!-- styles icon -->
+  <script src="https://kit.fontawesome.com/398926058a.js" crossorigin="anonymous"></script>
+  <script src="../static/js/logout.js"></script>
+  <script src="../static/js/nofiticationtime.js"></script>
+  <!-- notification -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
+  <script src="../static/js/analysis.js"></script>
+  <!-- 
+	< -->
+
+  <!-- motor -->
+
+  <script src="../static/js/motor.js"></script>
+  <script src="../static/js/prediction.js"></script>
+
+</body>
+
+</html>

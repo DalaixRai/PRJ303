@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../static/images/logo.png">
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/alert.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+  <link rel="stylesheet" href="../static/css/login.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <img src="../static/images/logo.png" alt="Logo" style="max-width: 150px;">
+    <h1>Login</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="/" method="post">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Email" required><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Password" required><br><br>
+      <button type="submit">Login</button>
+      <p></p>
+      <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+    </form>
+  </div>
+  <script src="{{ url_for('static', filename='js/alert.js') }}"></script>
+</body>
+
+</html>
